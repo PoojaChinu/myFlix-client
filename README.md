@@ -10,4 +10,4 @@
 
 #### Instruct Parcel to build your project:
 
-- parcel src/index.js
+- parcel src/index.html
