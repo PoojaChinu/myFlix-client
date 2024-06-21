@@ -4,6 +4,7 @@ export const SignupView = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [birthday, setBirthday] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleSubmit = (event) => {
     // this prevents the default behavior of the form which is to reload the entire page
@@ -12,6 +13,7 @@ export const SignupView = () => {
     const data = {
       Name: username,
       Password: password,
+      Email: email,
       Birthday: birthday,
     };
 
@@ -52,6 +54,15 @@ export const SignupView = () => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </label>
+      <label>
+        Email:
+        <input
+          type="string"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
       </label>
