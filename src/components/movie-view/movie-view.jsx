@@ -1,4 +1,6 @@
 import PropTypes from "prop-types";
+import Col from "react-bootstrap/Col";
+import "../movie-view/movie-view.scss";
 
 export const MovieView = ({ movie, onBackClick }) => {
   return (
@@ -18,7 +20,9 @@ export const MovieView = ({ movie, onBackClick }) => {
         <span>Genre: </span>
         <span>{movie.Genre.Name}</span>
       </div>
-      <button onClick={onBackClick}>Back</button>
+      <button onClick={onBackClick} className="back-button">
+        Back
+      </button>
     </div>
   );
 };
