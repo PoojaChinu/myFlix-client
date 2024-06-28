@@ -1,9 +1,12 @@
 import { createRoot } from "react-dom/client";
+
+// Importing the MainView Function
 import { MainView } from "./components/main-view/main-view";
 
 // Import statement to indicate that you need to bundle `./index.scss`
 import "./index.scss";
 
+// Importing the Container
 import Container from "react-bootstrap/Container";
 
 // Main component (will eventually use all the others)
