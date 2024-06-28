@@ -13199,4 +13199,10 @@ textarea.form-control-lg {
 .my-flix {
   color: #4682b4;
 }
+
+.movie-list {
+  flex-wrap: wrap;
+  display: flex;
+  position: relative;
+}
 /*# sourceMappingURL=index.2212206d.css.map */

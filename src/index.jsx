@@ -12,7 +12,7 @@ import Container from "react-bootstrap/Container";
 // Main component (will eventually use all the others)
 const App = () => {
   return (
-    <Container>
+    <Container className="h-100 justify-content-center">
       <MainView />
     </Container>
   );

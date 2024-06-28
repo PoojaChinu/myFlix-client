@@ -1,29 +1,47 @@
 import PropTypes from "prop-types";
+import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { Button, Card } from "react-bootstrap";
 import "../movie-view/movie-view.scss";
 
 export const MovieView = ({ movie, onBackClick }) => {
   return (
-    <div>
-      <div>
-        <img src={movie.Image} />
-      </div>
-      <div>
-        <span>Title: </span>
-        <span>{movie.Title}</span>
-      </div>
-      <div>
-        <span>Director: </span>
-        <span>{movie.Director.Name}</span>
-      </div>
-      <div>
-        <span>Genre: </span>
-        <span>{movie.Genre.Name}</span>
-      </div>
-      <button onClick={onBackClick} className="back-button">
-        Back
-      </button>
-    </div>
+    <>
+      <Row md={2} className="">
+        <Col md={4} className="">
+          <Card.Img
+            src={movie.Image}
+            key={movie.Image}
+            alt="movie-poster"
+            className="w-100 h-100"
+          />
+        </Col>
+        <Col md={8} className="movie-view">
+          <Col className="title text-md-lg">
+            <span className="fw-bolder">Title: </span>
+            <span key={movie._id}>{movie.Title}</span>
+          </Col>
+          <Col>
+            <span className="fw-bolder">Director: </span>
+            <span key={movie._id}>{movie.Director.Name}</span>
+          </Col>
+          <Col>
+            <span className="fw-bolder">Genre: </span>
+            <span key={movie._id}>{movie.Genre.Name}</span>
+          </Col>
+          <Col className="button-wrapper">
+            <Button
+              onClick={() => onBackClick()}
+              variant="link"
+              className="back-button"
+            >
+              Back
+            </Button>
+          </Col>
+        </Col>
+      </Row>
+      <hr />
+    </>
   );
 };
 
