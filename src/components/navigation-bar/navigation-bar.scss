@@ -1,0 +1,11 @@
+.navigation-bar {
+    position: fixed; /* Fix the navigation bar at the top of the viewport */
+    top: 0; /* Position it at the top */
+    width: 100%; /* Make it span the entire width of the viewport */
+    z-index: 1000; /* Ensure it's above other content */
+  }
+  /* Adjust padding/margin for content below the navigation bar */
+  .content-below-navigation {
+    margin-top: 60px; /* Adjust this value according to the height of the navigation bar */
+    padding-top: 20px; /* Add padding to ensure content is not hidden behind the navigation bar */
+  }
