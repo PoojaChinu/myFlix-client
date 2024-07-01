@@ -6,6 +6,18 @@
   padding: 4px 12px;
 }
 
+.navigation-bar {
+  z-index: 1000;
+  width: 100%;
+  position: fixed;
+  top: 0;
+}
+
+.content-below-navigation {
+  margin-top: 60px;
+  padding-top: 20px;
+}
+
 :root, [data-bs-theme="light"] {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -13198,11 +13210,5 @@ textarea.form-control-lg {
 
 .my-flix {
   color: #4682b4;
-}
-
-.movie-list {
-  flex-wrap: wrap;
-  display: flex;
-  position: relative;
 }
 /*# sourceMappingURL=index.2212206d.css.map */

@@ -1,10 +1,15 @@
 import PropTypes from "prop-types";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Button, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router";
 import "../movie-view/movie-view.scss";
 
-export const MovieView = ({ movie, onBackClick }) => {
+export const MovieView = ({ movies }) => {
+  const { movieId } = useParams();
+  const movie = movies.find((m) => m._id === movieId);
+
   return (
     <>
       <Row md={2} className="">
@@ -30,13 +35,9 @@ export const MovieView = ({ movie, onBackClick }) => {
             <span key={movie._id}>{movie.Genre.Name}</span>
           </Col>
           <Col className="button-wrapper">
-            <Button
-              onClick={() => onBackClick()}
-              variant="link"
-              className="back-button"
-            >
-              Back
-            </Button>
+            <Link to={`/`}>
+              <button className="back-button">Back</button>
+            </Link>
           </Col>
         </Col>
       </Row>
@@ -56,6 +57,5 @@ MovieView.propTypes = {
     Director: PropTypes.shape({
       Name: PropTypes.string.isRequired,
     }).isRequired,
-  }).isRequired,
-  onBackClick: PropTypes.func.isRequired,
+  }),
 };
