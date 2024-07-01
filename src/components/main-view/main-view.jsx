@@ -6,8 +6,9 @@ import { SignupView } from "../signup-view/signup-view";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { DeleteProfile, ProfileView } from "../profile-view/profile-view";
+import { ProfileView } from "../profile-view/profile-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
+import { DeleteProfile } from "../profile-view/user-deregister";
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -15,6 +16,14 @@ export const MainView = () => {
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
+
+  const handleToggleFavorite = (movieId, isFavorite) => {
+    console.log(
+      `Toggle favorite for movie with ID ${movieId} (${
+        isFavorite ? "Add to favorites" : "Remove from favorites"
+      })`
+    );
+  };
 
   useEffect(() => {
     if (!token) {
@@ -40,6 +49,8 @@ export const MainView = () => {
           setUser(null);
           setToken(null);
           localStorage.clear();
+          // redirecting to login page
+          window.location.href = "/login";
         }}
       />
       <Row>
@@ -85,7 +96,11 @@ export const MainView = () => {
                         key={movie._id}
                         movie={movie}
                       >
-                        <MovieCard key={movie._id} movie={movie} />
+                        <MovieCard
+                          key={movie._id}
+                          movie={movie}
+                          onToggleFavorite={handleToggleFavorite}
+                        />
                       </Col>
                     ))}
                   </>
@@ -122,39 +137,6 @@ export const MainView = () => {
             element={<>{user ? <DeleteProfile /> : <Navigate to="/" />}</>}
           ></Route>
         </Routes>
-        {/* {!user ? (
-          <Col md={5}>
-            <LoginView
-              onLoggedIn={(user, token) => {
-                setUser(user);
-                setToken(token);
-              }}
-            />
-            or
-            <SignupView />
-          </Col>
-        ) : selectedMovie ? (
-          <Col md={8} style={{ border: "1px solid black" }}>
-            <MovieView
-              movie={selectedMovie}
-              onBackClick={() => setSelectedMovie(null)}
-            />
-          </Col>
-        ) : movies.length === 0 ? (
-          <div>The list is empty!</div>
-        ) : (
-          movies.map((movie) => (
-            <Col className="mb-5 col-12 col-md-6 col-lg-4" key={movie._id}>
-              <MovieCard
-                key={movie._id}
-                movie={movie}
-                onMovieClick={(newSelectedMovie) => {
-                  setSelectedMovie(newSelectedMovie);
-                }}
-              />
-            </Col>
-          ))
-        )} */}
       </Row>
     </BrowserRouter>
   );

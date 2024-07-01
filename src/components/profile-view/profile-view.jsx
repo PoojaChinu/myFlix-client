@@ -10,19 +10,37 @@ export const ProfileView = ({ movies }) => {
   const storedToken = localStorage.getItem("token");
   const [token] = useState(storedToken ? storedToken : null);
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState("");
+  if (!user) {
+    console.log("User not found in localStorage");
+    return;
+  }
+
+  if (!token) {
+    console.log("Token not found in localStorage");
+    return;
+  }
+
+  const [name, setName] = useState(user?.Name || "");
+  const [email, setEmail] = useState(user?.Email || "");
+  const [birthday, setBirthday] = useState(user?.Birthday || "");
 
   const fav = movies.filter((movie) => {
     return user.FavoriteMovies.includes(movie._id);
   });
 
+  const handleToggleFavorite = (movieId, isFavorite) => {
+    console.log(
+      `Toggle favorite for movie with ID ${movieId} (${
+        isFavorite ? "Add to favorites" : "Remove from favorites"
+      })`
+    );
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const data = {
-      Name: username,
+      Name: name,
       Email: email,
       Birthday: birthday,
     };
@@ -37,9 +55,16 @@ export const ProfileView = ({ movies }) => {
           "Content-Type": "application/json",
         },
       }
-    ).then((response) => {
+    ).then(async (response) => {
       if (response.ok) {
         alert("Profile details updated successful");
+
+        const updatedUser = await response.json();
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+
+        setName(updatedUser.Name);
+        setEmail(updatedUser.Email);
+        setBirthday(updatedUser.Birthday);
 
         window.location.reload();
       } else {
@@ -50,12 +75,12 @@ export const ProfileView = ({ movies }) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="formUsername">
+      <Form.Group controlId="formName">
         <Form.Label>Username:</Form.Label>
         <Form.Control
           type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           required
           minLength="4"
         />
@@ -91,39 +116,14 @@ export const ProfileView = ({ movies }) => {
             key={movie._id}
             movie={movie}
           >
-            <MovieCard key={movie._id} movie={movie} />
+            <MovieCard
+              key={movie._id}
+              movie={movie}
+              onToggleFavorite={handleToggleFavorite}
+            />
           </Col>
         ))}
       </Row>
     </Form>
   );
-};
-
-export const DeleteProfile = () => {
-  const localUser = JSON.parse(localStorage.getItem("user"));
-  const storedToken = localStorage.getItem("token");
-
-  const [setUser] = useState(localUser ? localUser : null);
-  const [token, setToken] = useState(storedToken ? storedToken : null);
-
-  fetch(
-    `https://radiant-river-68463-0f7c4a72bc48.herokuapp.com/users/${localUser._id}`,
-    {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }
-  ).then((response) => {
-    if (response.ok) {
-      setUser(null);
-      setToken(null);
-      localStorage.clear();
-
-      alert("Profile deleted");
-    } else {
-      alert("Profile deletion failed");
-    }
-  });
 };

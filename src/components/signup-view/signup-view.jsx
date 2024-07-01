@@ -30,7 +30,8 @@ export const SignupView = () => {
         if (data.Name) {
           alert("Signup successful");
 
-          window.location.reload();
+          // redirect to login page
+          window.location.href = "/login";
         } else {
           alert("Signup failed");
         }

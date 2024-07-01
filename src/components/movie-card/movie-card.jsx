@@ -1,10 +1,30 @@
 import PropTypes from "prop-types";
-import { Button, Card, CardBody } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
-export const MovieCard = ({ movie }) => {
+export const MovieCard = ({ movie, onToggleFavorite }) => {
   const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [isFavorite, setIsFavorite] = useState(false);
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState(storedUser ? storedUser : null);
+
+  const handleToggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+    onToggleFavorite(movie._id, !isFavorite);
+
+    if (isFavorite) {
+      removeFav();
+    } else {
+      addFav();
+    }
+  };
+
+  const checkFavorite = () => {
+    if (user.FavoriteMovies.includes(movie._id)) {
+      setIsFavorite(true);
+    }
+  };
 
   const addFav = () => {
     fetch(
@@ -18,7 +38,10 @@ export const MovieCard = ({ movie }) => {
       }
     )
       .then((response) => response.json())
-      .then(() => {
+      .then((userDetails) => {
+        // update user in local storage
+        setUser(userDetails);
+        console.log("-----user---after--", user);
         alert("Movie added to your favourites");
       })
       .catch((e) => console.log(e));
@@ -36,25 +59,27 @@ export const MovieCard = ({ movie }) => {
       }
     )
       .then((response) => response.json())
-      .then(() => {
+      .then((userDetails) => {
+        console.log("-----user---before--", user);
+        console.log("-----userDetails---removeFav--", userDetails);
+        // update user in local storage
+        setUser(userDetails);
+        console.log("-----user---after--", user);
         alert("Movie deleted from your favourites");
       })
       .catch((e) => console.log(e));
   };
 
   return (
-    <Card className="h-100">
+    <Card className="h-100" onLoad={checkFavorite}>
       <Card.Img variant="top" className="w-100 h-100" src={movie.Image} />
       <Card.Body>
         <Card.Title>{movie.Title}</Card.Title>
         <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
           <Button variant="link">Open</Button>
         </Link>
-        <Button variant="primary" onClick={addFav}>
-          Add to Favorites
-        </Button>
-        <Button variant="primary" onClick={removeFav}>
-          Remove from Favorites
+        <Button variant="primary" onClick={handleToggleFavorite}>
+          {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
         </Button>
       </Card.Body>
     </Card>
@@ -67,4 +92,5 @@ MovieCard.propTypes = {
     Title: PropTypes.string.isRequired,
     Image: PropTypes.string.isRequired,
   }).isRequired,
+  onToggleFavorite: PropTypes.func.isRequired,
 };
