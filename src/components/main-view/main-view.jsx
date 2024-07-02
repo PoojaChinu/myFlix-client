@@ -17,12 +17,8 @@ export const MainView = () => {
   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
 
-  const handleToggleFavorite = (movieId, isFavorite) => {
-    console.log(
-      `Toggle favorite for movie with ID ${movieId} (${
-        isFavorite ? "Add to favorites" : "Remove from favorites"
-      })`
-    );
+  const handleToggleFavorite = (updatedUserDetails) => {
+    localStorage.setItem("user", JSON.stringify(updatedUserDetails));
   };
 
   useEffect(() => {
@@ -100,6 +96,7 @@ export const MainView = () => {
                           key={movie._id}
                           movie={movie}
                           onToggleFavorite={handleToggleFavorite}
+                          isFavorite={user.FavoriteMovies.includes(movie._id)}
                         />
                       </Col>
                     ))}

@@ -5,35 +5,28 @@ import { MovieCard } from "../movie-card/movie-card";
 
 export const ProfileView = ({ movies }) => {
   const localUser = JSON.parse(localStorage.getItem("user"));
-  const [user] = useState(localUser ? localUser : null);
-
   const storedToken = localStorage.getItem("token");
-  const [token] = useState(storedToken ? storedToken : null);
 
-  if (!user) {
+  if (!localUser) {
     console.log("User not found in localStorage");
     return;
   }
 
-  if (!token) {
+  if (!storedToken) {
     console.log("Token not found in localStorage");
     return;
   }
 
-  const [name, setName] = useState(user?.Name || "");
-  const [email, setEmail] = useState(user?.Email || "");
-  const [birthday, setBirthday] = useState(user?.Birthday || "");
+  const [name, setName] = useState(localUser?.Name || "");
+  const [email, setEmail] = useState(localUser?.Email || "");
+  const [birthday, setBirthday] = useState(localUser?.Birthday || "");
 
   const fav = movies.filter((movie) => {
-    return user.FavoriteMovies.includes(movie._id);
+    return localUser.FavoriteMovies.includes(movie._id);
   });
 
-  const handleToggleFavorite = (movieId, isFavorite) => {
-    console.log(
-      `Toggle favorite for movie with ID ${movieId} (${
-        isFavorite ? "Add to favorites" : "Remove from favorites"
-      })`
-    );
+  const handleToggleFavorite = (updatedUserDetails) => {
+    localStorage.setItem("user", JSON.stringify(updatedUserDetails));
   };
 
   const handleSubmit = (event) => {
@@ -51,7 +44,7 @@ export const ProfileView = ({ movies }) => {
         method: "PUT",
         body: JSON.stringify(data),
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${storedToken}`,
           "Content-Type": "application/json",
         },
       }
@@ -120,6 +113,7 @@ export const ProfileView = ({ movies }) => {
               key={movie._id}
               movie={movie}
               onToggleFavorite={handleToggleFavorite}
+              isFavorite={localUser.FavoriteMovies.includes(movie._id)}
             />
           </Col>
         ))}

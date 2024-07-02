@@ -3,16 +3,11 @@ import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-export const MovieCard = ({ movie, onToggleFavorite }) => {
+export const MovieCard = ({ movie, onToggleFavorite, isFavorite }) => {
   const token = localStorage.getItem("token");
-  const [isFavorite, setIsFavorite] = useState(false);
   const storedUser = JSON.parse(localStorage.getItem("user"));
-  const [user, setUser] = useState(storedUser ? storedUser : null);
 
   const handleToggleFavorite = () => {
-    setIsFavorite(!isFavorite);
-    onToggleFavorite(movie._id, !isFavorite);
-
     if (isFavorite) {
       removeFav();
     } else {
@@ -20,15 +15,9 @@ export const MovieCard = ({ movie, onToggleFavorite }) => {
     }
   };
 
-  const checkFavorite = () => {
-    if (user.FavoriteMovies.includes(movie._id)) {
-      setIsFavorite(true);
-    }
-  };
-
   const addFav = () => {
     fetch(
-      `https://radiant-river-68463-0f7c4a72bc48.herokuapp.com/users/${user._id}/movies/${movie._id}`,
+      `https://radiant-river-68463-0f7c4a72bc48.herokuapp.com/users/${storedUser._id}/movies/${movie._id}`,
       {
         method: "PATCH",
         headers: {
@@ -39,17 +28,17 @@ export const MovieCard = ({ movie, onToggleFavorite }) => {
     )
       .then((response) => response.json())
       .then((userDetails) => {
-        // update user in local storage
-        setUser(userDetails);
-        console.log("-----user---after--", user);
+        onToggleFavorite(userDetails);
+
         alert("Movie added to your favourites");
+        window.location.reload();
       })
       .catch((e) => console.log(e));
   };
 
   const removeFav = () => {
     fetch(
-      `https://radiant-river-68463-0f7c4a72bc48.herokuapp.com/users/${user._id}/favorites/${movie._id}`,
+      `https://radiant-river-68463-0f7c4a72bc48.herokuapp.com/users/${storedUser._id}/favorites/${movie._id}`,
       {
         method: "DELETE",
         headers: {
@@ -60,18 +49,16 @@ export const MovieCard = ({ movie, onToggleFavorite }) => {
     )
       .then((response) => response.json())
       .then((userDetails) => {
-        console.log("-----user---before--", user);
-        console.log("-----userDetails---removeFav--", userDetails);
-        // update user in local storage
-        setUser(userDetails);
-        console.log("-----user---after--", user);
+        onToggleFavorite(userDetails);
+
         alert("Movie deleted from your favourites");
+        window.location.reload();
       })
       .catch((e) => console.log(e));
   };
 
   return (
-    <Card className="h-100" onLoad={checkFavorite}>
+    <Card className="h-100">
       <Card.Img variant="top" className="w-100 h-100" src={movie.Image} />
       <Card.Body>
         <Card.Title>{movie.Title}</Card.Title>
