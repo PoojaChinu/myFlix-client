@@ -16,10 +16,10 @@ export const ProfileView = ({ movies, user, onToggleFavorite }) => {
     return;
   }
 
-  const [name, setName] = useState(user?.Name || "");
-  const [email, setEmail] = useState(user?.Email || "");
-  const [birthday, setBirthday] = useState(user?.Birthday || "");
-  const [password, setPassword] = useState(user?.Password || "");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [password, setPassword] = useState("");
 
   const fav = movies.filter((movie) => {
     return user.FavoriteMovies.includes(movie._id);
@@ -102,7 +102,7 @@ export const ProfileView = ({ movies, user, onToggleFavorite }) => {
         <Form.Label>Birthday:</Form.Label>
         <Form.Control
           type="date"
-          value={new Date(birthday).toISOString().slice(0, 10)}
+          value={birthday}
           onChange={(e) => setBirthday(e.target.value)}
           required
         />
