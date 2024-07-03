@@ -3,11 +3,10 @@ import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { MovieCard } from "../movie-card/movie-card";
 
-export const ProfileView = ({ movies }) => {
-  const localUser = JSON.parse(localStorage.getItem("user"));
+export const ProfileView = ({ movies, user }) => {
   const storedToken = localStorage.getItem("token");
 
-  if (!localUser) {
+  if (!user) {
     console.log("User not found in localStorage");
     return;
   }
@@ -17,12 +16,13 @@ export const ProfileView = ({ movies }) => {
     return;
   }
 
-  const [name, setName] = useState(localUser?.Name || "");
-  const [email, setEmail] = useState(localUser?.Email || "");
-  const [birthday, setBirthday] = useState(localUser?.Birthday || "");
+  const [name, setName] = useState(user?.Name || "");
+  const [email, setEmail] = useState(user?.Email || "");
+  const [birthday, setBirthday] = useState(user?.Birthday || "");
+  const [password, setPassword] = useState(user?.Password || "");
 
   const fav = movies.filter((movie) => {
-    return localUser.FavoriteMovies.includes(movie._id);
+    return user.FavoriteMovies.includes(movie._id);
   });
 
   const handleToggleFavorite = (updatedUserDetails) => {
@@ -36,10 +36,11 @@ export const ProfileView = ({ movies }) => {
       Name: name,
       Email: email,
       Birthday: birthday,
+      Password: password,
     };
 
     fetch(
-      `https://radiant-river-68463-0f7c4a72bc48.herokuapp.com/users/${localUser._id}`,
+      `https://radiant-river-68463-0f7c4a72bc48.herokuapp.com/users/${user._id}`,
       {
         method: "PUT",
         body: JSON.stringify(data),
@@ -58,6 +59,7 @@ export const ProfileView = ({ movies }) => {
         setName(updatedUser.Name);
         setEmail(updatedUser.Email);
         setBirthday(updatedUser.Birthday);
+        setPassword(updatedUser.Password);
 
         window.location.reload();
       } else {
@@ -78,6 +80,15 @@ export const ProfileView = ({ movies }) => {
           minLength="4"
         />
       </Form.Group>
+      <Form.Group controlId="formPassword">
+        <Form.Label>Password:</Form.Label>
+        <Form.Control
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </Form.Group>
       <Form.Group controlId="formEmail">
         <Form.Label>Email:</Form.Label>
         <Form.Control
@@ -91,7 +102,7 @@ export const ProfileView = ({ movies }) => {
         <Form.Label>Birthday:</Form.Label>
         <Form.Control
           type="date"
-          value={birthday}
+          value={new Date(birthday).toISOString().slice(0, 10)}
           onChange={(e) => setBirthday(e.target.value)}
           required
         />
@@ -113,7 +124,7 @@ export const ProfileView = ({ movies }) => {
               key={movie._id}
               movie={movie}
               onToggleFavorite={handleToggleFavorite}
-              isFavorite={localUser.FavoriteMovies.includes(movie._id)}
+              isFavorite={user.FavoriteMovies.includes(movie._id)}
             />
           </Col>
         ))}

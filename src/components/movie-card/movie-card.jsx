@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
 export const MovieCard = ({ movie, onToggleFavorite, isFavorite }) => {
   const token = localStorage.getItem("token");
@@ -31,7 +30,6 @@ export const MovieCard = ({ movie, onToggleFavorite, isFavorite }) => {
         onToggleFavorite(userDetails);
 
         alert("Movie added to your favourites");
-        window.location.reload();
       })
       .catch((e) => console.log(e));
   };
@@ -52,7 +50,6 @@ export const MovieCard = ({ movie, onToggleFavorite, isFavorite }) => {
         onToggleFavorite(userDetails);
 
         alert("Movie deleted from your favourites");
-        window.location.reload();
       })
       .catch((e) => console.log(e));
   };

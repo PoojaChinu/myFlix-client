@@ -18,7 +18,7 @@ export const MainView = () => {
   const [movies, setMovies] = useState([]);
 
   const handleToggleFavorite = (updatedUserDetails) => {
-    localStorage.setItem("user", JSON.stringify(updatedUserDetails));
+    setUser(updatedUserDetails);
   };
 
   useEffect(() => {
@@ -125,7 +125,7 @@ export const MainView = () => {
             path="/profile"
             element={
               <>
-                <ProfileView movies={movies} />
+                <ProfileView movies={movies} user={user} />
               </>
             }
           ></Route>
