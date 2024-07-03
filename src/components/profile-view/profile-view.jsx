@@ -3,7 +3,7 @@ import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { MovieCard } from "../movie-card/movie-card";
 
-export const ProfileView = ({ movies, user }) => {
+export const ProfileView = ({ movies, user, onToggleFavorite }) => {
   const storedToken = localStorage.getItem("token");
 
   if (!user) {
@@ -26,7 +26,7 @@ export const ProfileView = ({ movies, user }) => {
   });
 
   const handleToggleFavorite = (updatedUserDetails) => {
-    localStorage.setItem("user", JSON.stringify(updatedUserDetails));
+    onToggleFavorite(updatedUserDetails);
   };
 
   const handleSubmit = (event) => {

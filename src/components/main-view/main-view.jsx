@@ -125,7 +125,11 @@ export const MainView = () => {
             path="/profile"
             element={
               <>
-                <ProfileView movies={movies} user={user} />
+                <ProfileView
+                  movies={movies}
+                  user={user}
+                  onToggleFavorite={handleToggleFavorite}
+                />
               </>
             }
           ></Route>
