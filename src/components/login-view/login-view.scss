@@ -1,0 +1,20 @@
+.userLogin {
+    border: 2px solid #ccc; /* Add solid borders */
+    border-radius: 8px; /* Add border radius for rounded corners */
+    padding: 20px; /* Add padding for spacing */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add box shadow for depth */
+  
+    /* Center the form horizontally */
+    margin: 0 auto;
+    max-width: 400px; /* Set maximum width for responsiveness */
+  }
+  
+  .inputGroup {
+    margin-bottom: 20px; /* Add margin between input groups */
+  }
+  .loginForm {
+    width: 100%; /* Set width of form controls to 100% */
+    padding: 10px; /* Add padding to form controls */
+    border: 1px solid #ced4da; /* Add border to form controls */
+    border-radius: 4px; /* Add border radius for rounded corners */
+  }
