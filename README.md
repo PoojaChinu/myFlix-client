@@ -2,12 +2,15 @@
 
 The MyFlix-Client project is a single-page, responsive application built using React, designed for movie enthusiasts who want to explore and save information about various movies. This client-side application interfaces with an existing server-side REST API and database, forming a complete full-stack JavaScript project utilizing the MERN stack (MongoDB, Express, React, and Node.js).
 
+## Live Demo
+
+You can view the live demo of the MyFlix-Client at: [MyFlix-Client Live Demo](https://pooja-porwal-myflix.netlify.app/login)
+
 ### Features
 
 ### Main View:
 
 Returns all movies to the user (each movie item with an image and title).
-Allows filtering the list of movies with a search feature.
 Ability to select a movie for more details.
 Ability to log out.
 Ability to navigate to Profile View.
@@ -32,6 +35,14 @@ Allows users to update their info (username, password, email, date of birth).
 Displays favorite movies.
 Allows users to remove a movie from their list of favorites.
 Allows existing users to deregister.
+
+## Dependencies
+
+- React
+- React Router
+- React Bootstrap
+- Bootstrap
+- Fetch API for HTTP requests
 
 ### Project Setup
 
