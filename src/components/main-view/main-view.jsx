@@ -47,6 +47,18 @@ export const MainView = () => {
   // identify whether there was a user click or not
   const [selectedMovie, setSelectedMovie] = useState(null);
 
+  // useEffect(() => {
+  //   fetch("https://radiant-river-68463-0f7c4a72bc48.herokuapp.com/movies")
+  //     .then((response) => response.json())
+  //     .then((movies) => {
+  //       console.log("Movies from API:", movies);
+
+  //       const [selectedMovie, setSelectedMovie] = useState(null);
+  //       setMovies(movies);
+  //     })
+  //     .catch((e) => console.log(e));
+  // }, []);
+
   if (selectedMovie) {
     return (
       <MovieView
