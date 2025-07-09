@@ -6,6 +6,24 @@ The MyFlix-Client project is a single-page, responsive application built using R
 
 You can view the live demo of the MyFlix-Client at: [MyFlix-Client Live Demo](https://pooja-porwal-myflix.netlify.app/login)
 
+### Goals
+
+- Class Components - Props(this.props), State(this.state)
+- Hooks - useState, useEffect, useContext
+- PropTypes
+- LifeCycle Methods (Class Component) Phases : Start, Render, End
+
+Each phase has a method
+
+- Component construction: constructor()
+- Component has been mounted: componentDidMount()
+- Component will be unmounted: componentWillUnmount()
+- Component has been updated: componentDidUpdate()
+
+- useState - lets you add a state variable to your component
+- useEffect - Runs a callback function whenever any of its dependencies changes. It is a good place to add code for performing async tasks such as making network requests or adding event listeners.
+- useContext - Lets you read and subscribe to context from your component. it allows you to pass data down a component tree without having to manually pass props through every nested component.
+
 ### Features
 
 ### Main View:
